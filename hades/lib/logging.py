@@ -2,7 +2,7 @@ import logging
 
 import sys
 
-FORMATTER = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+FORMATTER = '%(asctime)s - [%(levelname)s] -  %(name)s - %(message)s'
 logger_formatter = logging.Formatter(FORMATTER)
 
 

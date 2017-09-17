@@ -1,7 +1,7 @@
 import abc
 
 
-class Entity(abc.ABC):
+class Service(abc.ABC):
 
     def __init__(self):
         pass
