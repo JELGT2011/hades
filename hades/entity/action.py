@@ -1,9 +1,10 @@
-from hades.entity import Entity
+from hades.entity.base import Entity
 
 
 class Action(Entity):
 
-    def __init__(self, input_event, screenshot):
-        super(Entity, self).__init__()
+    def __init__(self, timestamp, input_event, screenshot):
+        super().__init__()
+        self.timestamp = timestamp
         self.input_event = input_event
         self.screenshot = screenshot

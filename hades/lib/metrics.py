@@ -5,13 +5,11 @@ def instrument_wrapper(logger):
 
     def wrapper_factory(func):
 
-        name_ = func.__name__
-
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            logger.info('{} being'.format(name_))
+            logger.info('{} begin'.format(func.__name__))
             func(*args, **kwargs)
-            logger.info('{} end'.format(name_))
+            logger.info('{} end'.format(func.__name__))
 
         return wrapper
 

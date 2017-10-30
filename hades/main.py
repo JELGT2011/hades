@@ -1,18 +1,17 @@
 import time
 
-from hades.service.input_listener import input_listener_service
+from hades.service.input import input_service
 
 
 def setup():
-    input_listener_service.start()
-    time.sleep(5)
-    input_listener_service.stop()
+    input_service.start()
 
 
 def teardown():
-    pass
+    input_service.stop()
 
 
 if __name__ == '__main__':
     setup()
+    time.sleep(5)
     teardown()
