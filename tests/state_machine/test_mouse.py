@@ -1,12 +1,16 @@
 from unittest import TestCase
 
+from mock import Mock
+
 from hades.state_machine.mouse import MouseStateMachine, MouseState
 
 
 class TestMouseStateMachine(TestCase):
 
     def setUp(self):
-        self.state_machine = MouseStateMachine()
+        self.controller = Mock()
+        # noinspection PyTypeChecker
+        self.state_machine = MouseStateMachine(controller=self.controller)
 
     def test_init(self):
         assert self.state_machine.state == MouseState.DEFAULT.name
