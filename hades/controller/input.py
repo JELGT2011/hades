@@ -2,7 +2,7 @@ from pynput import keyboard, mouse
 
 from hades.controller.base import Controller
 from hades.controller.callback import OnPress, OnRelease, OnMove, OnClick, OnScroll
-from hades.entity.event import Event, EventType
+from hades.entity.event import Event, MouseEventType
 from hades.lib import get_logger
 from hades.state_machine.keyboard import KeyboardStateMachine
 from hades.state_machine.mouse import MouseStateMachine
@@ -32,7 +32,7 @@ class InputController(Controller):
 
     def register_event(self, event: Event):
         self.events.append(event)
-        if event.type_ == EventType.MOUSE_SCROLL:
+        if event.type_ == MouseEventType.SCROLL:
             self.stop()
 
     def start(self):

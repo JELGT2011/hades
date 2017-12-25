@@ -20,7 +20,7 @@ class KeyboardEventType(Enum):
 
 class Event(Entity):
 
-    def __init__(self, type_: EventType, timestamp: int, args):
+    def __init__(self, type_: Enum, timestamp: int, args):
         self.type_ = type_
         self.timestamp = timestamp
         self.args = args
