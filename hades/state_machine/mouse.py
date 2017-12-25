@@ -68,12 +68,6 @@ class MouseStateMachine(Machine):
     def right_up(self):
         pass
 
-    def middle_down(self):
-        pass
-
-    def middle_up(self):
-        pass
-
     def on_left_click(self):
         action = Action(type_=MouseState.LEFT_CLICK, timestamp=int(time()))
         self.controller.register_action(action)
