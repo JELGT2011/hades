@@ -1,4 +1,3 @@
-
 from os import path
 
 APPLICATION_ID = 'hades'

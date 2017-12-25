@@ -1,17 +1,7 @@
-import time
-
-from hades.service.input import input_service
-
-
-def setup():
-    input_service.start()
-
-
-def teardown():
-    input_service.stop()
+from hades.controller.input import input_controller
 
 
 if __name__ == '__main__':
-    setup()
-    time.sleep(5)
-    teardown()
+    input_controller.start()
+    while input_controller.running:
+        pass
