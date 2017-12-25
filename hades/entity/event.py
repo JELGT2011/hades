@@ -4,19 +4,18 @@ from hades.entity.base import Entity
 
 
 class EventType(Enum):
-
     NO_OP = auto()
 
-    MOUSE_MOVE = auto()
-    MOUSE_CLICK = auto()
-    MOUSE_SCROLL = auto()
-    KEY_PRESS = auto()
-    KEY_RELEASE = auto()
 
-    STRING = auto()
-    MODIFIED_STRING = auto()
+class MouseEventType(Enum):
+    MOVE = auto()
+    CLICK = auto()
+    SCROLL = auto()
 
-    COMPOUND = auto()
+
+class KeyboardEventType(Enum):
+    PRESS = auto()
+    RELEASE = auto()
 
 
 class Event(Entity):

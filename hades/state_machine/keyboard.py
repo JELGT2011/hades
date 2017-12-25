@@ -1,31 +1,31 @@
-from transitions import Machine, Transition
+from enum import Enum
 
-DEFAULT = 'default'
-MODIFIED = 'modified'
+from transitions import Machine, State
+
+
+class KeyboardState(Enum):
+    DEFAULT = 'default'
+    MODIFIED = 'modified'
+
+    def __str__(self):
+        return self.name
+
+
+STATES = [
+    State(KeyboardState.DEFAULT.name),
+    State(KeyboardState.MODIFIED.name),
+]
+
+TRANSITIONS = [
+    {'trigger': 'caps_locks', 'source': KeyboardState.DEFAULT, 'dest': KeyboardState.MODIFIED.name, 'conditions': []},
+]
 
 
 class KeyboardStateMachine(object):
 
-    STATES = [
-        DEFAULT,
-        MODIFIED,
-    ]
-
-    TRANSITIONS = [
-        Transition(source=DEFAULT, dest=MODIFIED, conditions=[]),
-        Transition(source=MODIFIED, dest=DEFAULT, conditions=[]),
-    ]
-
     def __init__(self):
         self.state = None
-        self.machine = Machine(model=self, states=self.STATES, transitions=self.TRANSITIONS, initial=DEFAULT)
-        self.modifiers = set()
-
-    def modifier_down(self, modifier):
-        self.modifiers.add(modifier)
-
-    def modifier_up(self, modifier):
-        self.modifiers.remove(modifier)
+        self.machine = Machine(model=self, states=STATES, transitions=TRANSITIONS, initial=KeyboardState.DEFAULT.name)
 
 
 keyboard_state_machine = KeyboardStateMachine()

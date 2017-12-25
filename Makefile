@@ -10,3 +10,7 @@ bootstrap:
 .PHONY: shell
 shell:
 	ipython
+
+.PHONY: test
+test:
+	python -m pytest tests/

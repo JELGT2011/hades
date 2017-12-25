@@ -4,7 +4,6 @@ from transitions import Machine, State
 
 
 class MouseState(Enum):
-
     DEFAULT = auto()
     LEFT_DOWN = auto()
     SINGLE_CLICKED = auto()

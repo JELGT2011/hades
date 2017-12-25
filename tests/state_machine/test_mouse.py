@@ -1,9 +1,9 @@
-import unittest
+from unittest import TestCase
 
 from hades.state_machine.mouse import MouseStateMachine, MouseState
 
 
-class TestMouseStateMachine(unittest.TestCase):
+class TestMouseStateMachine(TestCase):
 
     def setUp(self):
         self.state_machine = MouseStateMachine()
