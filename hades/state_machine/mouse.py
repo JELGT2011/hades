@@ -13,33 +13,32 @@ logger = get_logger(__name__)
 STATES = [
     State(MouseState.DEFAULT.name),
     State(MouseState.LEFT_DOWN.name),
-    State(MouseState.LEFT_CLICKED.name, on_enter=['on_single_click']),
-    # State(MouseState.DOUBLE_CLICKED.name, on_enter=['on_double_click']),
-    # State(MouseState.TRIPLE_CLICKED.name, on_enter=['on_triple_click']),
-    State(MouseState.RIGHT_CLICKED.name, on_enter=['on_right_click']),
-    # State(MouseState.MIDDLE_CLICKED.name, on_enter=['on_middle_click']),
+    State(MouseState.RIGHT_DOWN.name),
+    # TODO: make these states auto transition back to default
+    State(MouseState.LEFT_CLICK.name, on_enter=['on_left_click']),
+    State(MouseState.RIGHT_CLICK.name, on_enter=['on_right_click']),
 ]
 
 TRANSITIONS = [
     {
         'trigger': 'left_down',
-        'source': [MouseState.DEFAULT.name, MouseState.LEFT_CLICKED.name],
+        'source': [MouseState.DEFAULT.name, MouseState.LEFT_CLICK.name, MouseState.RIGHT_CLICK.name],
         'dest': MouseState.LEFT_DOWN.name,
     },
     {
         'trigger': 'left_up',
-        'source': MouseState.LEFT_DOWN.name,
-        'dest': MouseState.LEFT_CLICKED.name,
+        'source': [MouseState.LEFT_DOWN.name],
+        'dest': MouseState.LEFT_CLICK.name,
     },
     {
         'trigger': 'right_down',
-        'source': MouseState.DEFAULT.name,
+        'source': [MouseState.DEFAULT.name, MouseState.LEFT_CLICK.name, MouseState.RIGHT_CLICK.name],
         'dest': MouseState.RIGHT_DOWN.name,
     },
     {
         'trigger': 'right_up',
-        'source': MouseState.RIGHT_DOWN.name,
-        'dest': MouseState.RIGHT_CLICKED.name,
+        'source': [MouseState.RIGHT_DOWN.name],
+        'dest': MouseState.RIGHT_CLICK.name,
     },
 ]
 
@@ -75,20 +74,12 @@ class MouseStateMachine(Machine):
     def middle_up(self):
         pass
 
-    def on_single_click(self):
-        action = Action(type_=MouseState.LEFT_CLICKED, timestamp=int(time()))
+    def on_left_click(self):
+        action = Action(type_=MouseState.LEFT_CLICK, timestamp=int(time()))
         self.controller.register_action(action)
 
-    # def on_double_click(self):
-    #     action = Action(type_=MouseState.DOUBLE_CLICKED, timestamp=int(time()))
-    #     self.controller.register_action(action)
-    #
-    # def on_triple_click(self):
-    #     action = Action(type_=MouseState.TRIPLE_CLICKED, timestamp=int(time()))
-    #     self.controller.register_action(action)
-
     def on_right_click(self):
-        action = Action(type_=MouseState.RIGHT_CLICKED, timestamp=int(time()))
+        action = Action(type_=MouseState.RIGHT_CLICK, timestamp=int(time()))
         self.controller.register_action(action)
 
     def on_middle_click(self):
