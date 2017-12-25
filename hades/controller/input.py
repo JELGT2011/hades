@@ -42,11 +42,14 @@ class InputController(Controller):
         self.actions.append(action)
 
     def start(self):
-        [listener.start() for listener in self.listeners if not listener.running]
+        for listener in self.listeners:
+            listener.start()
+            listener.wait()
 
     def stop(self):
-        [listener.stop() for listener in self.listeners if listener.running]
+        for listener in self.listeners:
+            listener.stop()
 
     @property
     def running(self):
-        return any([listener.running for listener in self.listeners])
+        return all([listener.running for listener in self.listeners])
