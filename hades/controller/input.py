@@ -26,7 +26,7 @@ class InputController(Controller):
             on_scroll=OnScroll(controller=self),
         )
         self.listeners = [
-            # self.keyboard_listener,
+            self.keyboard_listener,
             self.mouse_listener,
         ]
         self.keyboard_state_machine = KeyboardStateMachine(controller=self)
@@ -39,10 +39,7 @@ class InputController(Controller):
         self.actions.append(action)
 
     def start(self):
-        for listener in self.listeners:
-            listener.start()
-            listener.join()
-            listener.wait()
+        [listener.start() for listener in self.listeners if not listener.running]
 
     def stop(self):
         [listener.stop() for listener in self.listeners]
