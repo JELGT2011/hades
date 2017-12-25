@@ -20,8 +20,8 @@ class Callback(object):
     def __init__(self, controller: Controller):
         self.controller = controller
 
-    def __call__(self, *args, **kwargs):
-        logger.info('{} called with {}, {}'.format(self.event_type.name, args, kwargs))
+    def __call__(self, *args):
+        logger.info('{} called with args {}'.format(self.event_type.name, args))
         event = Event(type_=self.event_type, timestamp=int(time()), args=args)
         self.controller.register_event(event)
 
@@ -29,7 +29,7 @@ class Callback(object):
 class OnMove(Callback):
     event_type = MouseEventType.MOVE
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, *args):
         event = Event(type_=self.event_type, timestamp=int(time()), args=args)
         self.controller.register_event(event)
 

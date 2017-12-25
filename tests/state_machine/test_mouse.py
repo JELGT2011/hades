@@ -16,4 +16,4 @@ class TestMouseStateMachine(TestCase):
         self.state_machine.left_down()
         assert self.state_machine.state == MouseState.LEFT_DOWN.name
         self.state_machine.left_up()
-        assert self.state_machine.state == MouseState.SINGLE_CLICKED.name
+        assert self.state_machine.state == MouseState.LEFT_CLICKED.name
