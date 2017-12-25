@@ -18,6 +18,9 @@ class KeyboardEventType(EventType):
     RELEASE = auto()
 
 
+MARK_ITERATION_EVENT = KeyboardEventType.PRESS
+
+
 class Event(Entity):
 
     def __init__(self, type_: Enum, timestamp: int, args: tuple):

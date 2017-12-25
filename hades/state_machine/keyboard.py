@@ -9,7 +9,11 @@ STATES = [
 ]
 
 TRANSITIONS = [
-    {'trigger': 'cap_locks_down', 'source': KeyboardState.DEFAULT, 'dest': KeyboardState.MODIFIED.name},
+    {
+        'trigger': 'caps_lock_down',
+        'source': [KeyboardState.DEFAULT.name],
+        'dest': KeyboardState.MODIFIED.name,
+    },
 ]
 
 

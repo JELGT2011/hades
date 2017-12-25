@@ -13,3 +13,6 @@ class MouseState(Enum):
 class KeyboardState(Enum):
     DEFAULT = auto()
     MODIFIED = auto()
+
+
+MARK_ITERATION_ACTION = MouseState.RIGHT_CLICK

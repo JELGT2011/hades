@@ -23,15 +23,15 @@ class Controller(ABC):
     def register_action(self, action: Action):
         pass
 
-    @abstractmethod
-    def start(self):
-        pass
-
-    @abstractmethod
-    def stop(self):
-        pass
-
-    @property
-    @abstractmethod
-    def running(self):
-        pass
+    # @abstractmethod
+    # def start(self):
+    #     pass
+    #
+    # @abstractmethod
+    # def stop(self):
+    #     pass
+    #
+    # @property
+    # @abstractmethod
+    # def running(self):
+    #     pass
