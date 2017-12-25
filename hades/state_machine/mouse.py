@@ -75,7 +75,3 @@ class MouseStateMachine(Machine):
     def on_right_click(self):
         action = Action(type_=MouseState.RIGHT_CLICK, timestamp=int(time()))
         self.controller.register_action(action)
-
-    def on_middle_click(self):
-        action = Action(type_=MouseState.MIDDLE_CLICKED, timestamp=int(time()))
-        self.controller.register_action(action)
