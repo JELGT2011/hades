@@ -1,24 +1,21 @@
-from operator import methodcaller
 from time import time
 
-from pynput import mouse
-
 from hades.controller.base import Controller
-from hades.entity.event import EventType, Event, MouseEventType, KeyboardEventType
+from hades.entity.event import Event, MouseEventType, KeyboardEventType
 from hades.lib import get_logger
 
 logger = get_logger(__name__)
 
-BUTTON_MAPPING = {
-    mouse.Button.left: None,
-    mouse.Button.middle: None,
-    mouse.Button.right: None,
+
+PRESSED_MAPPING = {
+    True: 'down',
+    False: 'up',
 }
 
 
 class Callback(object):
 
-    event_type = EventType.NO_OP
+    event_type = None
 
     def __init__(self, controller: Controller):
         self.controller = controller
@@ -41,11 +38,10 @@ class OnClick(Callback):
     event_type = MouseEventType.CLICK
 
     def __call__(self, x, y, button, pressed):
-        event = Event(type_=self.event_type, timestamp=int(time()), args=(x, y, button, pressed))
-        method = '{}_{}'.format(button.name, 'down' if pressed else 'up')
-        machine = self.controller.mouse_state_machine
-        methodcaller(machine, method)
-        self.controller.register_event(event)
+        super().__call__(x, y, button, pressed)
+        method_name = '{}_{}'.format(button.name, PRESSED_MAPPING[pressed])
+        trigger = getattr(self.controller.mouse_state_machine, method_name)
+        trigger()
 
 
 class OnScroll(Callback):

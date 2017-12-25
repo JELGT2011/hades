@@ -1,13 +1,12 @@
+from enum import Enum
+
 from hades.entity.base import Entity
 
 
 class Action(Entity):
 
-    def __init__(self, timestamp=None, input_event=None, screenshot=None):
+    def __init__(self, type_: Enum, timestamp: int, args: tuple):
         super().__init__()
+        self.type_ = type_
         self.timestamp = timestamp
-        self.input_event = input_event
-        self.screenshot = screenshot
-
-    def __hash__(self):
-        return hash(self.timestamp)
+        self.args = args

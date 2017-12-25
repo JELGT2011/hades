@@ -1,15 +1,7 @@
-from enum import Enum
-
 from transitions import Machine, State
 
-
-class KeyboardState(Enum):
-    DEFAULT = 'default'
-    MODIFIED = 'modified'
-
-    def __str__(self):
-        return self.name
-
+from hades.controller.base import Controller
+from hades.entity.state import KeyboardState
 
 STATES = [
     State(KeyboardState.DEFAULT.name),
@@ -17,15 +9,13 @@ STATES = [
 ]
 
 TRANSITIONS = [
-    {'trigger': 'caps_locks', 'source': KeyboardState.DEFAULT, 'dest': KeyboardState.MODIFIED.name, 'conditions': []},
+    {'trigger': 'cap_locks_down', 'source': KeyboardState.DEFAULT, 'dest': KeyboardState.MODIFIED.name},
 ]
 
 
-class KeyboardStateMachine(object):
+class KeyboardStateMachine(Machine):
 
-    def __init__(self):
+    def __init__(self, controller: Controller):
         self.state = None
-        self.machine = Machine(model=self, states=STATES, transitions=TRANSITIONS, initial=KeyboardState.DEFAULT.name)
-
-
-keyboard_state_machine = KeyboardStateMachine()
+        self.controller = controller
+        super().__init__(states=STATES, transitions=TRANSITIONS, initial=KeyboardState.DEFAULT.name)

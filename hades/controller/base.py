@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
 
+from hades.entity.action import Action
+from hades.entity.event import Event
+
 
 class Controller(ABC):
 
@@ -13,7 +16,11 @@ class Controller(ABC):
         self.mouse_state_machine = None
 
     @abstractmethod
-    def register_event(self, event):
+    def register_event(self, event: Event):
+        pass
+
+    @abstractmethod
+    def register_action(self, action: Action):
         pass
 
     @abstractmethod

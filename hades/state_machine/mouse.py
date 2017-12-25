@@ -1,38 +1,42 @@
-from enum import Enum, auto
-
 from transitions import Machine, State
 
+from hades.controller.base import Controller
+from hades.entity.state import MouseState
+from hades.lib import get_logger
 
-class MouseState(Enum):
-    DEFAULT = auto()
-    LEFT_DOWN = auto()
-    SINGLE_CLICKED = auto()
-    DOUBLE_CLICKED = auto()
-    TRIPLE_CLICKED = auto()
-    RIGHT_CLICKED = auto()
-
-    def __str__(self):
-        return self.name
+logger = get_logger(__name__)
 
 
 STATES = [
     State(MouseState.DEFAULT.name),
     State(MouseState.LEFT_DOWN.name),
-    State(MouseState.SINGLE_CLICKED.name),
-    State(MouseState.DOUBLE_CLICKED.name),
+    State(MouseState.SINGLE_CLICKED.name, on_enter=['register_action']),
+    State(MouseState.DOUBLE_CLICKED.name, on_enter=['register_action']),
+    State(MouseState.TRIPLE_CLICKED.name, on_enter=['register_action']),
+    State(MouseState.RIGHT_CLICKED.name, on_enter=['register_action']),
+    State(MouseState.MIDDLE_CLICKED.name, on_enter=['register_action']),
 ]
 
 TRANSITIONS = [
-    {'trigger': 'left_down', 'source': MouseState.DEFAULT.name, 'dest': MouseState.LEFT_DOWN.name, 'conditions': []},
-    {'trigger': 'left_up', 'source': MouseState.LEFT_DOWN.name, 'dest': MouseState.SINGLE_CLICKED.name, 'conditions': []},
+    {'trigger': 'left_down', 'source': MouseState.DEFAULT.name, 'dest': MouseState.LEFT_DOWN.name},
+    {'trigger': 'left_up', 'source': MouseState.LEFT_DOWN.name, 'dest': MouseState.SINGLE_CLICKED.name},
+    {'trigger': 'right_down', 'source': MouseState.DEFAULT.name, 'dest': MouseState.RIGHT_DOWN.name},
+    {'trigger': 'right_up', 'source': MouseState.RIGHT_DOWN.name, 'dest': MouseState.RIGHT_CLICKED.name},
 ]
 
 
-class MouseStateMachine(object):
+class MouseStateMachine(Machine):
 
-    def __init__(self):
+    def __init__(self, controller: Controller):
         self.state = None
-        self.machine = Machine(model=self, states=STATES, transitions=TRANSITIONS, initial=MouseState.DEFAULT.name)
+        self.controller = controller
+        super().__init__(states=STATES, transitions=TRANSITIONS, initial=MouseState.DEFAULT.name)
+
+    def unknown_down(self):
+        raise Exception('unsupported key pressed')
+
+    def unknown_up(self):
+        raise Exception('unsupported key pressed')
 
     def left_down(self):
         pass
@@ -51,3 +55,6 @@ class MouseStateMachine(object):
 
     def middle_up(self):
         pass
+
+    def register_action(self, *args, **kwargs):
+        logger.info('{} called with {} and {}'.format(self.register_action.__name__, args, kwargs))
