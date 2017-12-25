@@ -19,7 +19,6 @@ class InputController(Controller):
             on_press=OnPress(controller=self),
             on_release=OnRelease(controller=self),
         )
-        self.keyboard_listener.start()
         self.mouse_listener = mouse.Listener(
             on_move=OnMove(controller=self),
             on_click=OnClick(controller=self),
@@ -31,6 +30,10 @@ class InputController(Controller):
         ]
         self.keyboard_state_machine = KeyboardStateMachine(controller=self)
         self.mouse_state_machine = MouseStateMachine(controller=self)
+        self.state_machines = [
+            self.keyboard_state_machine,
+            self.mouse_state_machine,
+        ]
 
     def register_event(self, event: Event):
         self.events.append(event)
@@ -42,7 +45,7 @@ class InputController(Controller):
         [listener.start() for listener in self.listeners if not listener.running]
 
     def stop(self):
-        [listener.stop() for listener in self.listeners]
+        [listener.stop() for listener in self.listeners if listener.running]
 
     @property
     def running(self):
