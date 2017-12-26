@@ -34,6 +34,14 @@ class OnMove(Callback):
         self.controller.register_event(event)
 
 
+class OnScroll(Callback):
+    event_type = MouseEventType.SCROLL
+
+    def __call__(self, *args):
+        event = Event(type_=self.event_type, timestamp=int(time()), args=args)
+        self.controller.register_event(event)
+
+
 class OnClick(Callback):
     event_type = MouseEventType.CLICK
 
@@ -42,10 +50,6 @@ class OnClick(Callback):
         method_name = '{}_{}'.format(button.name, PRESSED_MAPPING[pressed])
         trigger = getattr(self.controller.mouse_state_machine, method_name)
         trigger()
-
-
-class OnScroll(Callback):
-    event_type = MouseEventType.SCROLL
 
 
 class OnPress(Callback):

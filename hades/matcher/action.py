@@ -1,17 +1,10 @@
-from collections import UserList
-from difflib import SequenceMatcher
+from typing import List
+
+from hades.entity.event import Event
+from hades.matcher.base import SequenceMatcher
 
 
-class ActionMatcher(UserList):
+class ActionMatcher(SequenceMatcher):
 
-    def __init__(self, initlist=None):
-        super().__init__(initlist)
-        self.sequence_matcher = SequenceMatcher(autojunk=False)
-
-    def append(self, item):
-        super().append(item)
-        pass
-
-    def find_matches(self):
-        pass
-        # matcher = self.sequence_matcher(a='', b='')
+    def insert_iteration(self, iteration: List[Event]):
+        super().insert_iteration(iteration)
