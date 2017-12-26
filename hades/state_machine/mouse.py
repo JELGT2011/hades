@@ -75,3 +75,9 @@ class MouseStateMachine(Machine):
     def on_right_click(self):
         action = Action(type_=MouseState.RIGHT_CLICK, timestamp=int(time()))
         self.controller.register_action(action)
+
+    def scroll(self, x, y, dx, dy):
+        pass
+
+    def move(self, x, y):
+        pass

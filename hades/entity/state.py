@@ -12,7 +12,8 @@ class MouseState(Enum):
 
 class KeyboardState(Enum):
     DEFAULT = auto()
-    MODIFIED = auto()
+    STANDARD_DOWN = auto()
+    MODIFIER_DOWN = auto()
 
 
 MARK_ITERATION_ACTION = MouseState.RIGHT_CLICK

@@ -9,11 +9,12 @@ class Controller(ABC):
     def __init__(self):
         self.actions = list()
         self.events = list()
-        self.keyboard_listener = None
-        self.mouse_listener = None
         self.listeners = list()
         self.keyboard_state_machine = None
         self.mouse_state_machine = None
+        self.state_machines = list()
+        self.event_matcher = None
+        self.action_matcher = None
 
     @abstractmethod
     def register_event(self, event: Event):
