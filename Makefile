@@ -19,6 +19,6 @@ test:
 upgrade:
 	pip-compile --no-index --upgrade
 
-.PHONY: comile
+.PHONY: compile
 compile:
 	pip-compile --no-index
