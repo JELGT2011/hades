@@ -6,8 +6,6 @@ class MouseState(Enum):
     DEFAULT = auto()
     LEFT_DOWN = auto()
     RIGHT_DOWN = auto()
-    LEFT_CLICK = auto()
-    RIGHT_CLICK = auto()
 
 
 class KeyboardState(Enum):

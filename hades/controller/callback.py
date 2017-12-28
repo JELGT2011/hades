@@ -1,4 +1,5 @@
 from abc import abstractmethod, ABC
+from enum import Enum
 from time import time
 from typing import Callable
 
@@ -42,6 +43,7 @@ class Callback(ABC):
     def __call__(self, *args):
         event = Event(type_=self.event_type, timestamp=int(time()), args=args)
         trigger = self.get_trigger()
+        # self.machine.trigger(self.get_method())
         trigger(*args)
         self.controller.register_event(event)
 
@@ -71,7 +73,7 @@ class OnClick(Callback):
 
     event_type = MouseEventType.CLICK
 
-    def get_method(self, x, y, button, pressed) -> str:
+    def get_method(self, x: float, y: float, button: Enum, pressed: bool) -> str:
         return '{}_{}'.format(button.name, MOUSE_PRESS_MAPPING[pressed])
 
 

@@ -14,3 +14,11 @@ shell:
 .PHONY: test
 test:
 	python -m pytest tests/
+
+.PHONY: upgrade
+upgrade:
+	pip-compile --no-index --upgrade
+
+.PHONY: comile
+compile:
+	pip-compile --no-index

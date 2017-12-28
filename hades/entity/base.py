@@ -1,12 +1,12 @@
-import abc
-import enum
+from abc import ABC
+from enum import Enum as Enum_
 
 
-class Entity(abc.ABC):
+class Entity(ABC):
     pass
 
 
-class Enum(enum.Enum):
+class Enum(Enum_):
 
     def __str__(self):
         return self.name
