@@ -17,8 +17,12 @@ test:
 
 .PHONY: upgrade
 upgrade:
-	pip-compile --no-index --upgrade
+	pip-compile --no-index --index-url https://pypi.python.org/pypi/ --upgrade
 
 .PHONY: compile
 compile:
-	pip-compile --no-index
+	pip-compile --no-index --index-url https://pypi.python.org/pypi/
+
+.PHONY: sync
+sync:
+	pip-sync --index-url https://pypi.python.org/pypi/
