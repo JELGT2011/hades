@@ -1,91 +1,44 @@
-from abc import abstractmethod, ABC
 from enum import Enum
 from time import time
-from typing import Callable
 
-from transitions import Machine
-
-from hades.controller.base import Controller
-from hades.entity.event import Event, MouseEventType, KeyboardEventType
+from hades.controller.input import input_controller
+from hades.entity.action import Action, MouseActionType, KeyboardActionType
 from hades.lib import get_logger
 
 logger = get_logger(__name__)
 
 
 MOUSE_PRESS_MAPPING = {
-    True: 'down',
-    False: 'up',
+    True: MouseActionType.BUTTON_DOWN,
+    False: MouseActionType.BUTTON_UP,
 }
 
-KEY_PRESS_MAPPING = {
-    True: 'modifier',
-    False: 'standard',
-}
 
-MODIFIER_KEYS = frozenset({
-    # TODO: find windows and linux super key codes
-    'cmd',
-    'alt',
-    'ctrl',
-    'shift',
-    'caps_lock',
-})
+def on_move(x: float, y: float):
+    kwargs = {'x': x, 'y': y}
+    action = Action(type_=MouseActionType.SCROLL, timestamp=int(time()), kwargs=kwargs)
+    input_controller.register_action(action)
 
 
-class Callback(ABC):
-
-    event_type = None
-
-    def __init__(self, controller: Controller, machine: Machine):
-        self.controller = controller
-        self.machine = machine
-
-    def __call__(self, *args):
-        event = Event(type_=self.event_type, timestamp=int(time()), args=args)
-        trigger = self.get_trigger()
-        # self.machine.trigger(self.get_method())
-        trigger(*args)
-        self.controller.register_event(event)
-
-    @abstractmethod
-    def get_method(self, *args: tuple) -> str:
-        pass
-
-    def get_trigger(self) -> Callable:
-        return getattr(self.machine, self.get_method())
+def on_scroll(x: float, y: float, dx: float, dy: float):
+    kwargs = {'x': x, 'y': y, 'dx': dx, 'dy': dy}
+    action = Action(type_=MouseActionType.MOVE, timestamp=int(time()), kwargs=kwargs)
+    input_controller.register_action(action)
 
 
-class OnMove(Callback):
-    event_type = MouseEventType.MOVE
-
-    def get_method(self, x, y) -> str:
-        return 'move'
-
-
-class OnScroll(Callback):
-    event_type = MouseEventType.SCROLL
-
-    def get_method(self, x, y, dx, dy) -> str:
-        return 'scroll'
+def on_click(x: float, y: float, button: Enum, pressed: bool):
+    kwargs = {'x': x, 'y': y, 'button': button.name, 'pressed': pressed}
+    action = Action(type_=MOUSE_PRESS_MAPPING[pressed], timestamp=int(time()), kwargs=kwargs)
+    input_controller.register_action(action)
 
 
-class OnClick(Callback):
-
-    event_type = MouseEventType.CLICK
-
-    def get_method(self, x: float, y: float, button: Enum, pressed: bool) -> str:
-        return '{}_{}'.format(button.name, MOUSE_PRESS_MAPPING[pressed])
+def on_press(key: Enum):
+    kwargs = {'key': key.name, 'pressed': True}
+    action = Action(type_=KeyboardActionType.KEY_DOWN, timestamp=int(time()), kwargs=kwargs)
+    input_controller.register_action(action)
 
 
-class OnPress(Callback):
-    event_type = KeyboardEventType.PRESS
-
-    def get_method(self, key) -> str:
-        return '{}_down'.format(KEY_PRESS_MAPPING[key.name in MODIFIER_KEYS])
-
-
-class OnRelease(Callback):
-    event_type = KeyboardEventType.RELEASE
-
-    def get_method(self, key) -> str:
-        return '{}_up'.format(KEY_PRESS_MAPPING[key.name in MODIFIER_KEYS])
+def on_release(key: Enum):
+    kwargs = {'key': key.name, 'pressed': False}
+    action = Action(type_=KeyboardActionType.KEY_UP, timestamp=int(time()), kwargs=kwargs)
+    input_controller.register_action(action)

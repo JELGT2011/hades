@@ -2,13 +2,13 @@ from unittest import TestCase
 
 from mock import Mock
 
-from hades.matcher.base import SequenceMatcher
+from hades.matcher.action import ActionMatcher
 
 
 class TestBase(TestCase):
 
     def setUp(self):
-        self.matcher = SequenceMatcher()
+        self.matcher = ActionMatcher()
 
     def test_insert_iteration(self):
         types = [0, 1, 1]
