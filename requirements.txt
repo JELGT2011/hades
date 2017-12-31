@@ -32,7 +32,6 @@ pyobjc-framework-quartz==4.1  # via pynput
 pyscreenshot==0.4.2
 pytest==3.2.3
 simplegeneric==0.8.1      # via ipython
-six==1.11.0               # via mock, pip-tools, prompt-toolkit, pynput, traitlets, transitions
+six==1.11.0               # via mock, pip-tools, prompt-toolkit, pynput, traitlets
 traitlets==4.3.2          # via ipython
-transitions==0.6.3
 wcwidth==0.1.7            # via prompt-toolkit
