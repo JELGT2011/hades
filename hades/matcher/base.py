@@ -1,17 +1,13 @@
-from abc import abstractmethod
-from difflib import SequenceMatcher as SequenceMatcher_
-from typing import List
+from difflib import SequenceMatcher
 
-from hades.entity.action import Action
+from hades.lib import get_logger
+
+logger = get_logger(__name__)
 
 MINIMUM_CONFIDENCE = 0.8
 
 
-class Matcher(SequenceMatcher_):
-
-    @abstractmethod
-    def insert_iteration(self, iteration: List[Action]):
-        pass
+class Matcher(SequenceMatcher):
 
     @property
     def found_match(self):

@@ -13,12 +13,14 @@ class MouseActionType(ActionType):
     BUTTON_DOWN = auto()
     BUTTON_UP = auto()
     BUTTON_CLICK = auto()
+    COMPOUND = auto()
 
 
 class KeyboardActionType(ActionType):
     KEY_DOWN = auto()
     KEY_UP = auto()
     KEY_CLICK = auto()
+    COMPOUND = auto()
 
 
 class Action(Entity):
