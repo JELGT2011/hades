@@ -1,6 +1,7 @@
 import click
 
 from hades.controller.input import input_controller
+from hades.lib import APPLICATION_ID
 from hades.lib import get_logger
 from hades.matcher import matcher
 
@@ -9,7 +10,7 @@ logger = get_logger(__name__)
 
 @click.command()
 def cli():
-    click.echo('starting hades')
+    click.echo('starting {}'.format(APPLICATION_ID))
     input_controller.start()
     while input_controller.running:
         if matcher.found_match:

@@ -7,6 +7,7 @@
 appnope==0.1.0            # via ipython
 click==6.7
 decorator==4.1.2          # via ipython, traitlets
+doubles==1.1.3
 easyprocess==0.2.3        # via pyscreenshot
 first==2.0.1              # via pip-tools
 ipdb==0.10.3
