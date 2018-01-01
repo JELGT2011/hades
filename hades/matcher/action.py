@@ -25,6 +25,8 @@ class ActionMatcher(SequenceMatcher):
         self.set_seqs(left, right)
 
     def action_generator(self):
+        # TODO: get opcodes for sequence, create a delta between two action sequences,
+        # then apply that delta to each subsequent list of actions generated
         for action in self.actions:
             yield action
 
