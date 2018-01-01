@@ -19,3 +19,6 @@ class OutputController(Controller):
 
     def replay_actions(self, actions: List[Action]):
         pass
+
+
+output_controller = OutputController()

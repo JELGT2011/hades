@@ -7,9 +7,9 @@ from hades.lib import SCREENSHOT_DIR, get_logger
 
 SCREENSHOT_NAME_FORMAT = '{timestamp}.png'
 
-tkinter_root = tkinter.Tk()
-width = tkinter_root.winfo_screenwidth()
-height = tkinter_root.winfo_screenheight()
+# tkinter_root = tkinter.Tk()
+# width = tkinter_root.winfo_screenwidth()
+# height = tkinter_root.winfo_screenheight()
 
 logger = get_logger(__name__)
 

@@ -15,6 +15,10 @@ shell:
 test:
 	python -m pytest tests/
 
+.PHONY: run
+run:
+	python main.py
+
 .PHONY: upgrade
 upgrade:
 	pip-compile --no-index --index-url https://pypi.python.org/pypi/ --upgrade

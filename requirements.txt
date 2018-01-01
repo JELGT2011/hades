@@ -5,7 +5,7 @@
 #    pip-compile --no-index --output-file requirements.txt requirements.in
 #
 appnope==0.1.0            # via ipython
-click==6.7                # via pip-tools
+click==6.7
 decorator==4.1.2          # via ipython, traitlets
 easyprocess==0.2.3        # via pyscreenshot
 first==2.0.1              # via pip-tools
