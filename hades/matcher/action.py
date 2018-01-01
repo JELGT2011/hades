@@ -16,7 +16,6 @@ class ActionMatcher(SequenceMatcher):
         self.actions = list()
 
     def append(self, action: Action):
-        from hades.controller.input import input_controller
         self.actions.append(action)
         if not self.minimum_length:
             return
@@ -24,9 +23,10 @@ class ActionMatcher(SequenceMatcher):
         action_types = [action.type_ for action in self.actions]
         left, right = action_types[mid:], action_types[:mid]
         self.set_seqs(left, right)
-        if self.found_match:
-            logger.info('opcodes: {}'.format(self.get_opcodes()))
-            input_controller.stop()
+
+    def action_generator(self):
+        for action in self.actions:
+            yield action
 
     @property
     def minimum_length(self):

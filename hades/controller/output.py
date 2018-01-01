@@ -1,4 +1,4 @@
-from typing import List
+from typing import Iterable
 
 from pynput import keyboard, mouse
 
@@ -30,18 +30,18 @@ class OutputController(Controller):
             'mouse': mouse.Controller(),
         }
 
-    def replay_actions(self, actions: List[Action], iterations: int=0):
+    def replay_actions(self, actions: Iterable[Action], iterations: int=0):
         for i in range(iterations):
             for action in actions:
                 self.replay_action(action)
 
     def replay_action(self, action: Action):
-
         if isinstance(action.type_, MouseActionType):
             actuator = self.actuators['mouse']
         else:
             actuator = self.actuators['keyboard']
         func = getattr(actuator, ACTION_TYPE_TO_ACTUATOR_FUNCTION[action.type_])
+        # TODO: map kwargs from action into kwargs accepted in pynput
         func(**action.kwargs)
 
 
