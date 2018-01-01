@@ -1,9 +1,9 @@
-from abc import ABC
 from enum import Enum as Enum_
 
+from schematics import Model
 
-# TODO: move to a framework for these
-class Entity(ABC):
+
+class Entity(Model):
     pass
 
 

@@ -17,30 +17,50 @@ MOUSE_PRESS_MAPPING = {
 # noinspection PyUnusedLocal
 def on_move(x: float, y: float):
     # kwargs = {'x': x, 'y': y}
-    # action = Action(type_=MouseActionType.MOVE, timestamp=int(time()), kwargs=kwargs)
-    # input_controller.register_action(action)
+    # action = Action({
+    #     'type_': MouseActionType.MOVE,
+    #     'timestamp': int(time()),
+    #     'kwargs': kwargs,
+    # })
+    # matcher.append(action)
     pass
 
 
 def on_scroll(x: float, y: float, dx: float, dy: float):
     kwargs = {'x': x, 'y': y, 'dx': dx, 'dy': dy}
-    action = Action(type_=MouseActionType.SCROLL, timestamp=int(time()), kwargs=kwargs)
+    action = Action({
+        'type_': MouseActionType.SCROLL.name,
+        'timestamp': int(time()),
+        'kwargs': kwargs,
+    })
     matcher.append(action)
 
 
 def on_click(x: float, y: float, button: Enum, pressed: bool):
     kwargs = {'x': x, 'y': y, 'button': button, 'pressed': pressed}
-    action = Action(type_=MOUSE_PRESS_MAPPING[pressed], timestamp=int(time()), kwargs=kwargs)
+    action = Action({
+        'type_': MOUSE_PRESS_MAPPING[pressed].name,
+        'timestamp': int(time()),
+        'kwargs': kwargs,
+    })
     matcher.append(action)
 
 
 def on_press(key: Enum):
     kwargs = {'key': key}
-    action = Action(type_=KeyboardActionType.KEY_DOWN, timestamp=int(time()), kwargs=kwargs)
+    action = Action({
+        'type_': KeyboardActionType.KEY_DOWN.name,
+        'timestamp': int(time()),
+        'kwargs': kwargs,
+    })
     matcher.append(action)
 
 
 def on_release(key: Enum):
     kwargs = {'key': key}
-    action = Action(type_=KeyboardActionType.KEY_UP, timestamp=int(time()), kwargs=kwargs)
+    action = Action({
+        'type_': KeyboardActionType.KEY_UP.name,
+        'timestamp': int(time()),
+        'kwargs': kwargs,
+    })
     matcher.append(action)

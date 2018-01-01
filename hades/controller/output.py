@@ -32,6 +32,7 @@ class OutputController(Controller):
                 self.replay_action(action)
 
     def replay_action(self, action: Action):
+        # TODO: respect timestamp delta option
         if isinstance(action.type_, MouseActionType):
             controller = mouse_controller
         else:

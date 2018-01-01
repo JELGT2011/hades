@@ -1,5 +1,7 @@
 from enum import auto
 
+from schematics.types import StringType, IntType, DictType
+
 from hades.entity.base import Entity, Enum
 
 
@@ -21,10 +23,16 @@ class KeyboardActionType(ActionType):
     KEY_CLICK = auto()
 
 
+ACTION_TYPES = list(map(str, MouseActionType.__iter__() + KeyboardActionType.__iter__()))
+
+
 class Action(Entity):
 
-    def __init__(self, type_: ActionType, timestamp: int, kwargs: dict):
-        super().__init__()
-        self.type_ = type_
-        self.timestamp = timestamp
-        self.kwargs = kwargs
+    type_ = StringType(required=True, choices=ACTION_TYPES)
+    timestamp = IntType(required=True)
+    kwargs = DictType(field=StringType())
+
+    def __sub__(self, other):
+        if not self.type_ == other.type_:
+            raise Exception('cannot create delta of different action types')
+        pass
