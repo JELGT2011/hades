@@ -8,27 +8,23 @@ from hades.lib import get_logger
 
 logger = get_logger(__name__)
 
-ACTION_TYPE_TO_ACTUATOR_FUNCTION = {
-    MouseActionType.MOVE: 'move',
-    MouseActionType.SCROLL: 'scroll',
-    MouseActionType.BUTTON_DOWN: 'press',
-    MouseActionType.BUTTON_UP: 'release',
-    MouseActionType.BUTTON_CLICK: 'click',
-    MouseActionType.COMPOUND: None,
-    KeyboardActionType.KEY_DOWN: 'press',
-    KeyboardActionType.KEY_UP: 'release',
-    KeyboardActionType.KEY_CLICK: 'type',
-    KeyboardActionType.COMPOUND: None,
+keyboard_controller = keyboard.Controller()
+mouse_controller = mouse.Controller()
+
+
+ACTION_TYPE_TO_CONTROLLER_FUNCTION = {
+    MouseActionType.MOVE: lambda controller, kwargs: controller.move(dx=kwargs['dx'], dy=kwargs['dy']),
+    MouseActionType.SCROLL: lambda controller, kwargs: controller.scroll(dx=kwargs['dx'], dy=kwargs['dy']),
+    MouseActionType.BUTTON_DOWN: lambda controller, kwargs: controller.press(button=kwargs['button']),
+    MouseActionType.BUTTON_UP: lambda controller, kwargs: controller.release(button=kwargs['button']),
+    # MouseActionType.BUTTON_CLICK: lambda controller, kwargs: controller.click(button=kwargs['button']),
+    KeyboardActionType.KEY_DOWN: lambda controller, kwargs: controller.press(key=kwargs['key']),
+    KeyboardActionType.KEY_UP: lambda controller, kwargs: controller.release(key=kwargs['key']),
+    # KeyboardActionType.KEY_CLICK: lambda controller, kwargs: controller.type(string=None),
 }
 
 
 class OutputController(Controller):
-
-    def __init__(self):
-        self.actuators = {
-            'keyboard': keyboard.Controller(),
-            'mouse': mouse.Controller(),
-        }
 
     def replay_actions(self, actions: Iterable[Action], iterations: int=0):
         for i in range(iterations):
@@ -37,12 +33,11 @@ class OutputController(Controller):
 
     def replay_action(self, action: Action):
         if isinstance(action.type_, MouseActionType):
-            actuator = self.actuators['mouse']
+            controller = mouse_controller
         else:
-            actuator = self.actuators['keyboard']
-        func = getattr(actuator, ACTION_TYPE_TO_ACTUATOR_FUNCTION[action.type_])
-        # TODO: map kwargs from action into kwargs accepted in pynput
-        func(**action.kwargs)
+            controller = keyboard_controller
+        func = ACTION_TYPE_TO_CONTROLLER_FUNCTION[action.type_]
+        func(controller, action.kwargs)
 
 
 output_controller = OutputController()

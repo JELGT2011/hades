@@ -29,18 +29,18 @@ def on_scroll(x: float, y: float, dx: float, dy: float):
 
 
 def on_click(x: float, y: float, button: Enum, pressed: bool):
-    kwargs = {'x': x, 'y': y, 'button': button.name, 'pressed': pressed}
+    kwargs = {'x': x, 'y': y, 'button': button, 'pressed': pressed}
     action = Action(type_=MOUSE_PRESS_MAPPING[pressed], timestamp=int(time()), kwargs=kwargs)
     matcher.append(action)
 
 
 def on_press(key: Enum):
-    kwargs = {'key': key.name, 'pressed': True}
+    kwargs = {'key': key}
     action = Action(type_=KeyboardActionType.KEY_DOWN, timestamp=int(time()), kwargs=kwargs)
     matcher.append(action)
 
 
 def on_release(key: Enum):
-    kwargs = {'key': key.name, 'pressed': False}
+    kwargs = {'key': key}
     action = Action(type_=KeyboardActionType.KEY_UP, timestamp=int(time()), kwargs=kwargs)
     matcher.append(action)
