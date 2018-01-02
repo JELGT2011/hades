@@ -9,16 +9,16 @@ logger = get_logger(__name__)
 class InputController(Controller):
 
     def __init__(self):
-        from hades.controller.callback import on_move, on_click, on_scroll, on_press, on_release
+        from hades.controller.callback import noop, on_click, on_press, on_release
         self.listeners = [
             keyboard.Listener(
                 on_press=on_press,
                 on_release=on_release,
             ),
             mouse.Listener(
-                on_move=on_move,
+                on_move=noop,
                 on_click=on_click,
-                on_scroll=on_scroll,
+                on_scroll=noop,
             ),
         ]
 

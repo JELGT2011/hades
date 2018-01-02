@@ -1,38 +1,63 @@
-from enum import auto
+from schematics.types import StringType, IntType, FloatType
 
-from schematics.types import StringType, IntType, DictType
-
-from hades.entity.base import Entity, Enum
-
-
-class ActionType(Enum):
-    pass
-
-
-class MouseActionType(ActionType):
-    MOVE = auto()
-    SCROLL = auto()
-    BUTTON_DOWN = auto()
-    BUTTON_UP = auto()
-    BUTTON_CLICK = auto()
-
-
-class KeyboardActionType(ActionType):
-    KEY_DOWN = auto()
-    KEY_UP = auto()
-    KEY_CLICK = auto()
-
-
-ACTION_TYPES = list(map(str, MouseActionType.__iter__() + KeyboardActionType.__iter__()))
+from hades.entity.base import Entity
 
 
 class Action(Entity):
 
-    type_ = StringType(required=True, choices=ACTION_TYPES)
     timestamp = IntType(required=True)
-    kwargs = DictType(field=StringType())
+
+    def __add__(self, other):
+        assert isinstance(other, self.__class__), 'cannot apply delta to different action types'
 
     def __sub__(self, other):
-        if not self.type_ == other.type_:
-            raise Exception('cannot create delta of different action types')
-        pass
+        assert isinstance(other, self.__class__), 'cannot create delta of different action types'
+
+
+class MouseAction(Action):
+
+    x = FloatType(required=True)
+    y = FloatType(required=True)
+    button = StringType(required=False)
+
+
+class ButtonMouseAction(MouseAction):
+
+    def __add__(self, other):
+        super().__add__(other)
+        summation = self.__class__({
+            'timestamp': self.timestamp + other.timestamp,
+            'x': self.x + other.x,
+            'y': self.y + other.y,
+        })
+        return summation
+
+    def __sub__(self, other):
+        super().__sub__(other)
+        difference = self.__class__({
+            'timestamp': self.timestamp - other.timestamp,
+            'x': self.x - other.x,
+            'y': self.y - other.y,
+        })
+        return difference
+
+
+class ButtonDownMouseAction(MouseAction):
+    pass
+
+
+class ButtonUpMouseAction(MouseAction):
+    pass
+
+
+class KeyboardAction(Action):
+
+    key = StringType(required=True)
+
+
+class KeyDownKeyboardAction(KeyboardAction):
+    pass
+
+
+class KeyUpKeyboardAction(KeyboardAction):
+    pass

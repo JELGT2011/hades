@@ -17,10 +17,8 @@ ACTION_TYPE_TO_CONTROLLER_FUNCTION = {
     MouseActionType.SCROLL: lambda controller, kwargs: controller.scroll(dx=kwargs['dx'], dy=kwargs['dy']),
     MouseActionType.BUTTON_DOWN: lambda controller, kwargs: controller.press(button=kwargs['button']),
     MouseActionType.BUTTON_UP: lambda controller, kwargs: controller.release(button=kwargs['button']),
-    # MouseActionType.BUTTON_CLICK: lambda controller, kwargs: controller.click(button=kwargs['button']),
     KeyboardActionType.KEY_DOWN: lambda controller, kwargs: controller.press(key=kwargs['key']),
     KeyboardActionType.KEY_UP: lambda controller, kwargs: controller.release(key=kwargs['key']),
-    # KeyboardActionType.KEY_CLICK: lambda controller, kwargs: controller.type(string=None),
 }
 
 
