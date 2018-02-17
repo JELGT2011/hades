@@ -27,7 +27,8 @@ def cli():
     # iterations = click.prompt('Enter number of iterations', type=int)
     iterations = 1
     click.echo('repeating sequence {} times.'.format(iterations))
-    output_controller.replay_actions(matcher.action_generator(), iterations=iterations)
+    matcher.prepare()
+    output_controller.replay_actions(*(matcher.get_sequence_and_delta()), iterations=iterations)
 
 
 if __name__ == '__main__':

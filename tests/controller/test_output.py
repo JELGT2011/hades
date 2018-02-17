@@ -3,7 +3,7 @@ from unittest import TestCase
 from doubles import expect
 
 from hades.controller.output import output_controller
-from hades.entity.action import Action, KeyboardActionType
+from hades.entity.action import Action
 
 
 class TestOutputController(TestCase):

@@ -9,9 +9,11 @@ class Action(Entity):
 
     def __add__(self, other):
         assert isinstance(other, self.__class__), 'cannot apply delta to different action types'
+        return self
 
     def __sub__(self, other):
         assert isinstance(other, self.__class__), 'cannot create delta of different action types'
+        return self
 
 
 class MouseAction(Action):
@@ -26,7 +28,7 @@ class ButtonMouseAction(MouseAction):
     def __add__(self, other):
         super().__add__(other)
         summation = self.__class__({
-            'timestamp': self.timestamp + other.timestamp,
+            'timestamp': other.timestamp,
             'x': self.x + other.x,
             'y': self.y + other.y,
         })

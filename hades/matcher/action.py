@@ -14,6 +14,7 @@ class ActionMatcher(SequenceMatcher):
     def __init__(self, isjunk=None, a='', b='', autojunk=False):
         super().__init__(isjunk=isjunk, a=a, b=b, autojunk=autojunk)
         self.actions = list()
+        self.deltas = list()
 
     def append(self, action: Action):
         self.actions.append(action)
@@ -24,11 +25,15 @@ class ActionMatcher(SequenceMatcher):
         left, right = action_types[mid:], action_types[:mid]
         self.set_seqs(left, right)
 
-    def action_generator(self):
-        # TODO: get opcodes for sequence, create a delta between two action sequences,
-        # then apply that delta to each subsequent list of actions generated
-        for action in self.actions:
-            yield action
+    def get_sequence_and_delta(self):
+        mid = int(len(self.actions) / 2)
+        left, right = self.actions[mid:], self.actions[:mid]
+
+        # TODO: apply opcodes to sequence, instead of taking raw sequence
+        opcodes = self.get_opcodes()
+        sequence = left
+        delta = [left[i] - right[i] for i in range(len(sequence))]
+        return sequence, delta
 
     @property
     def minimum_length(self):
